@@ -4,6 +4,9 @@
 /tmp
 /node_modules
 
+# Apple Misc.
+.DS_Store
+
 /installer/_build
 /installer/tmp
 
