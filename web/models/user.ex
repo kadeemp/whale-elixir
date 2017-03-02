@@ -1,6 +1,6 @@
 defmodule Whale2.User do
-  use Whale2.Web, :model
-  use Arc.Ecto.Schema
+    use Whale2.Web, :model
+    use Arc.Ecto.Schema
 
     schema "users" do
         field :first_name, :string

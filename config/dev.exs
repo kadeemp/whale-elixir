@@ -29,3 +29,12 @@ config :whale2, Whale2.Repo,
   database: "whale2_dev",
   hostname: "localhost",
   pool_size: 10
+
+# Configure Guardian for authentication
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  issuer: "Whale2",
+  ttl: {30, :days},
+  allowed_drift: 2000,
+  secret_key: %{"k" => "0ElO4lQOMLx3zGPx0EHe2ylWl8UBbxzfPIhOk1CW_eiI6lmkQXRNpSj13KLaKTq_uBSFpja7EVAH0dGqol4E6w", "kty" => "oct"},
+  serializer: Whale2.GuardianSerializer
