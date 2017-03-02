@@ -5,7 +5,7 @@ defmodule Whale2.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", Whale2 do
+  scope "/api/v1", Whale2 do
     pipe_through :api
   end
 end
