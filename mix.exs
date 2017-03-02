@@ -40,6 +40,7 @@ defmodule Whale2.Mixfile do
      {:arc_ecto, "~> 0.5.0"},
      {:joken, "~> 1.4"},
      {:comeonin, "~> 3.0"},
+     {:guardian, "~> 0.14"},
      {:cowboy, "~> 1.0"}]
   end
 
