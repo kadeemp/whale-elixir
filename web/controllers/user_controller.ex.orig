@@ -16,7 +16,11 @@ defmodule Whale2.Api.V1.UserController do
     following_count = get_association(following)
 
     conn
+<<<<<<< HEAD
+    |> render("show.json", user: user, followers: followers)
+=======
        |> render("show.json", user: user, follower_count: followers_count, following_count: following_count)
+>>>>>>> develop
   end
 
   def create(conn, params) do
