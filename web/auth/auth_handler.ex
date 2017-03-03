@@ -6,6 +6,7 @@ defmodule Whale2.AuthHandler do
     |> send_resp(401, "")
     |> halt()
   end
+
   def unauthorized(conn, _params) do
     conn
     |> send_resp(401, "")

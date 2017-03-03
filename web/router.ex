@@ -11,8 +11,10 @@ defmodule Whale2.Router do
     plug Guardian.Plug.EnsureAuthenticated, handler: Whale2.AuthHandler
   end
 
-  scope "/api/v1", Whale2 do
+  scope "/api/v1", Whale2.Api.V1 do
     pipe_through :api
+
+    resources "/users", UserController, except: [:create, :edit]
 
     scope "/" do
       pipe_through :authorized

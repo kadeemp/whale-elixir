@@ -23,6 +23,7 @@ defmodule Whale2.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      alias Whale2.User
     end
   end
 
@@ -36,6 +37,7 @@ defmodule Whale2.Web do
 
       import Whale2.Router.Helpers
       import Whale2.Gettext
+      alias Whale2.User
     end
   end
 
