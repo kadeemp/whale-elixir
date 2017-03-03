@@ -17,10 +17,30 @@ defmodule Whale2.Api.V1.UserController do
 #    follower_count =
 #    IEx.pry
     conn
-       |> render("show.json", user: user, followers: followers)
+    |> render("show.json", user: user, followers: followers)
   end
 
-  def create(conn, _params) do
+  def create(conn, params) do
+    # changeset = User.registration_changeset(%User{}, user_params)
+    # case Repo.insert(changeset) do
+    #   {:ok, user} ->
+    #     conn
+    #     |> Rumbl.Auth.login(user)
+    #     |> put_flash(:info, "#{user.name} created!")
+    #     |> redirect(to: user_path(conn, :index))
+    #   {:error, changeset} ->
+    #     render(conn, "new.html", changeset: changeset)
+    # end
 
+    changeset = User.changeset(%User{}, params)
+    case Repo.insert(changeset) do
+      {:ok, user} ->
+        conn
+        |> Whale2.Auth.login(user)
+        |> put_status(:created)
+        |> render("show.json", user: user)
+      {:error, _changeset} ->
+        send_resp(conn, 422, "")
+    end
   end
 end
