@@ -14,7 +14,7 @@ defmodule Whale2.Router do
   scope "/api/v1", Whale2.Api.V1 do
     pipe_through :api
 
-    resources "/users", UserController, except: [:create, :edit]
+    resources "/users", UserController
 
     scope "/" do
       pipe_through :authorized
