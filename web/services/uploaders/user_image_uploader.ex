@@ -1,9 +1,11 @@
 defmodule Whale2.Uploaders.UserImage do
     use Arc.Definition
     use Arc.Ecto.Definition
+    require IEx
 
     @acl :public_read
     @versions [:original, :medium, :thumb]
+    @extension_whitelist ~w(.jpg .jpeg .gif .png)
 
     @heights %{
       medium: 500,
@@ -11,7 +13,7 @@ defmodule Whale2.Uploaders.UserImage do
     }
 
     def validate({file, _}) do
-      ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
+      @extension_whitelist |> Enum.member?(Path.extname(file.file_name))
     end
 
     def transform(:thumb, _file) do
@@ -22,8 +24,12 @@ defmodule Whale2.Uploaders.UserImage do
       {:convert, "-strip -resize x#{@heights[:medium]} -gravity center -format png"}
     end
 
-    def storage_dir(version, {file, scope}) do
-      "uploads/users/avatars/#{scope.id}"
+    def storage_dir(version, {_, scope}) do
+      "users/avatars/#{scope.id}"
+    end
+
+    def filename(version, _) do
+      version
     end
 
     def default_url(:thumb) do
@@ -31,7 +37,6 @@ defmodule Whale2.Uploaders.UserImage do
     end
 
     def s3_object_headers(_version, {file, _scope}) do
-        # For "image.png", would produce: "image/png"
         [content_type: Plug.MIME.path(file.file_name)]
     end
 

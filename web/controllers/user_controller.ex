@@ -33,7 +33,7 @@ defmodule Whale2.Api.V1.UserController do
         send_resp(conn, 422, "")
     end
   end
-  
+
   def get_association(assoc) do
     Repo.one(from u in assoc, select: count(u.id))
   end

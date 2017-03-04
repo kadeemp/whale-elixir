@@ -17,8 +17,7 @@ defmodule Whale2.Router do
     resources "/users", UserController
 
     scope "/" do
-      pipe_through :authorized
-
+        pipe_through :authorized
     end
   end
 end

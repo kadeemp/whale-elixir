@@ -2,6 +2,7 @@ defmodule Whale2.User do
     use Whale2.Web, :model
     use Arc.Ecto.Schema
     alias Whale2.Relationship
+    require IEx
 
     schema "users" do
         field :first_name, :string
@@ -23,7 +24,7 @@ defmodule Whale2.User do
         timestamps()
     end
 
-    @allowed_fields ~w(first_name last_name email username image_url)
+    @allowed_fields ~w(first_name last_name email username)
     @required_fields ~w(first_name last_name email username)a
     @email_regex ~r/\A[^@\s]+@([^@\s]+\.)+[^@\W]+\z/i
 
@@ -33,6 +34,7 @@ defmodule Whale2.User do
       |> validate_required(@required_fields)
       |> validate_format(:email, @email_regex)
       |> unique_constraint(:email)
+      |> cast_attachments(params, [:image_url])
     end
 
     def update_changeset(model, params \\ %{})  do
