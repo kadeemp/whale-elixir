@@ -25,3 +25,18 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+config :arc,
+    bucket: "whale2",
+    virtual_host: true
+
+config :ex_aws,
+    access_key_id: Application.get_env(:aws_keys, :access_key_id),
+    secret_access_key: Application.get_env(:aws_keys, :secret_access_key),
+    region: "us-west-1",
+    host: "s3-us-west-1.amazonaws.com",
+    s3: [
+        scheme: "https://",
+        host: "s3-us-west-1.amazonaws.com",
+        region: "us-west-1"
+    ]
