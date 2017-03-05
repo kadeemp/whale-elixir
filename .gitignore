@@ -3,6 +3,9 @@
 /doc
 /tmp
 /node_modules
+/config/prod.secret.exs
+/config/dev.secret.exs
+.env
 
 # Apple Misc.
 .DS_Store

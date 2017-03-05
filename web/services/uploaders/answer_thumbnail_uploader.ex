@@ -1,4 +1,4 @@
-defmodule Whale2.Uploaders.UserImage do
+defmodule Whale2.Uploaders.AnswerThumbnailUploader do
     use Arc.Definition
     use Arc.Ecto.Definition
 
@@ -7,12 +7,12 @@ defmodule Whale2.Uploaders.UserImage do
     @extension_whitelist ~w(.jpg .jpeg .gif .png)
 
     @heights %{
-      medium: 500,
-      thumb: 200
+        medium: 500,
+        thumb: 200
     }
 
     def validate({file, _}) do
-      @extension_whitelist |> Enum.member?(Path.extname(file.file_name))
+        @extension_whitelist |> Enum.member?(Path.extname(file.file_name))
     end
 
     def transform(:thumb, _file) do
@@ -23,8 +23,8 @@ defmodule Whale2.Uploaders.UserImage do
       {:convert, "-strip -resize x#{@heights[:medium]} -gravity center -format png"}
     end
 
-    def storage_dir(version, {file, scope}) do
-      "users/avatars/#{scope.first_name}_#{scope.last_name}_#{scope.email}" |> String.downcase
+    def storage_dir(_version, {_, scope}) do
+    "users/answers/question_#{scope.question_id}/thumbnails"
     end
 
     def default_url(:thumb) do

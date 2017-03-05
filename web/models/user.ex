@@ -23,9 +23,10 @@ defmodule Whale2.User do
         timestamps()
     end
 
-    @allowed_fields ~w(first_name last_name email username image_url)
+    @allowed_fields ~w(first_name last_name email username)
     @required_fields ~w(first_name last_name email username)a
     @email_regex ~r/\A[^@\s]+@([^@\s]+\.)+[^@\W]+\z/i
+    @attachment_fields ~w(image_url)a
 
     def changeset(model, params \\ %{}) do
       model
@@ -33,10 +34,11 @@ defmodule Whale2.User do
       |> validate_required(@required_fields)
       |> validate_format(:email, @email_regex)
       |> unique_constraint(:email)
+      |> cast_attachments(params, @attachment_fields)
     end
 
     def update_changeset(model, params \\ %{})  do
       model
-      |> cast_attachments(params, [:image_url])
+      |> cast_attachments(params, @attachment_fields)
     end
 end

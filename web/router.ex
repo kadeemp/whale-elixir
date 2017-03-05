@@ -15,10 +15,11 @@ defmodule Whale2.Router do
     pipe_through :api
 
     resources "/users", UserController
+    resources "/answers", AnswerController
+    resources "/comments", CommentController
 
     scope "/" do
-      pipe_through :authorized
-
+        pipe_through :authorized
     end
   end
 end
