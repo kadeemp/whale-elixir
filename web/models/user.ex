@@ -21,6 +21,9 @@ defmodule Whale2.User do
         has_many :passive_relationships, Relationship, foreign_key: :followed_id
         has_many :followers, through: [:passive_relationships, :follower]
 
+        has_many :sent_questions, Whale2.User
+        has_many :received_questions, Whale2.User
+
         timestamps()
     end
 

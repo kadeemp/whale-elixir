@@ -5,6 +5,7 @@ defmodule Whale2.Router do
     plug :accepts, ["json"]
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
+    plug Whale2.Auth
   end
 
   pipeline :authorized do
@@ -18,6 +19,8 @@ defmodule Whale2.Router do
 
     scope "/" do
         pipe_through :authorized
+
+        resources "/questions", QuestionController, only: [:create]
     end
   end
 end
