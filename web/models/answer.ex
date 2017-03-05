@@ -6,6 +6,7 @@ defmodule Whale2.Answer do
     field :thumbnail, Whale2.Uploaders.AnswerThumbnailUploader.Type
     field :video, Whale2.Uploaders.AnswerVideoUploader.Type
     belongs_to :question, Whale2.Question
+    has_many :comments, Whale2.Comment
 
     timestamps()
   end
