@@ -11,7 +11,7 @@ defmodule Whale2.Question do
   end
 
   @required_fields ~w(content sender_id receiver_id)a
-  @allowed_fields @required_fields
+  @allowed_fields ~w(content sender_id receiver_id)
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

@@ -8,7 +8,8 @@ defmodule Whale2.Api.V1.UserView do
 
     def render("show.json", params = %{user: user, follower_count: follower_count, following_count: following_count}) do
         %{  id: user.id,
-            name: user.first_name <> " " <> user.last_name,
+            first_name: user.first_name,
+            last_name: user.last_name,
             username: user.username,
             image_url: Whale2.Uploaders.UserImage.url({user.image_url, user}, :thumb),
             email: user.email,
