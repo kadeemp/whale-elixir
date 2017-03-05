@@ -13,7 +13,8 @@ defmodule Whale2.Api.V1.AnswerView do
         %{
             id: answer.id,
             thumbnail_url: Whale2.Uploaders.AnswerThumbnailUploader.url({answer.thumbnail, answer}, :thumb),
-            video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium)
+            video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium),
+            likes: render(Whale2.Api.V1.LikeView, "index.json", likes: answer.likes)
         }
     end
 end
