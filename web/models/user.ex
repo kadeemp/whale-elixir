@@ -9,6 +9,8 @@ defmodule Whale2.User do
         field :username, :string
         field :email, :string
         field :image_url, Whale2.Uploaders.UserImage.Type
+        field :followers_count, :integer, virtual: true
+        field :following_count, :integer, virtual: true
 
         # Active Relationships
         # When userA follows userB, userA has an active relationship with userB

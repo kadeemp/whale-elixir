@@ -4,6 +4,15 @@ defmodule Whale2.Api.V1.QuestionController do
   alias Whale2.Api.V1.QuestionView
   alias Ecto.Changeset
 
+  def index(conn, _params) do
+    questions = Repo.all(Question)
+    render(conn, "index.json", questions: questions)
+  end
+  def show(conn, %{"id" => id}) do
+    question = Repo.get!(Question, id)
+    render(conn, "show.json", question: question)
+  end
+
   def create(conn = %{assigns: %{current_user: sender}}, params = %{"receiver_id" => receiver_id}) do
     receiver = Repo.get!(User, receiver_id)
 

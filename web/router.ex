@@ -22,7 +22,7 @@ defmodule Whale2.Router do
     scope "/" do
         pipe_through :authorized
 
-        resources "/questions", QuestionController, only: [:create]
+        resources "/questions", QuestionController, only: [:create, :show, :index]
     end
   end
 end
