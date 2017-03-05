@@ -2,10 +2,11 @@ defmodule Whale2.Api.V1.AnswerController do
     use Whale2.Web, :controller
     alias Whale2.Api.V1.AnswerView
     alias Whale2.Answer
+    alias Whale2.Like
 
     def index(conn, %{"page_size" => page_size, "offset" => offset}) do
-        query = from a in Answer
-        answers = Repo.all(query)
+        answers = Repo.all(from a in Answer, preload: :likes)
+
         conn
             |> render("index.json", answers: answers)
     end
