@@ -19,7 +19,8 @@ defmodule Whale2.Mixfile do
   def application do
     [mod: {Whale2, []},
      applications: [:phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :comeonin, :arc_ecto, :ex_aws, :hackney, :poison]]
+                    :phoenix_ecto, :postgrex, :comeonin,
+                    :arc_ecto, :ex_aws, :hackney, :poison]]
   end
 
   # Specifies which paths to compile per environment.

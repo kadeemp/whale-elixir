@@ -10,8 +10,6 @@ defmodule Whale2.Repo.Migrations.CreateQuestion do
 
       timestamps()
     end
-    create index(:questions, [:sender_id])
-    create index(:questions, [:receiver_id])
-
+    create index(:questions, [:sender_id, :receiver_id])
   end
 end

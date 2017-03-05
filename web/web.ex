@@ -38,6 +38,7 @@ defmodule Whale2.Web do
       import Whale2.Router.Helpers
       import Whale2.Gettext
       alias Whale2.User
+      require IEx
     end
   end
 
