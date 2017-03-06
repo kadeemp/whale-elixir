@@ -15,6 +15,7 @@ defmodule Whale2.Api.V1.AnswerController do
   end
 
   def create(conn, params) do
+    # should we fetch from db to see whether question_id exists?
     changeset = Answer.changeset(%Answer{}, params)
 
     with {:ok, answer} <- Repo.insert(changeset) do
@@ -24,13 +25,14 @@ defmodule Whale2.Api.V1.AnswerController do
       |> put_status(:created)
       |> render("show.json", answer: answer)
     else
-      {:error, _changeset} -> send_resp(conn, 422, "")
+      {:error, _changeset} -> send_resp(conn, :unprocessable_entity, "")
     end
   end
 
   defp answer_query(%{per_page: per_page, page: page}) do
     offset = page * per_page
 
+    # sorted by?
     from a in Answer,
       preload: :likes,
       limit: ^per_page,

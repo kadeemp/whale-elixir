@@ -26,7 +26,7 @@ defmodule Whale2.Api.V1.QuestionController do
            |> put_status(:created)
            |> render("show.json", question: question)
          {:error, _changeset} ->
-           send_resp(conn, 422, "")
+           send_resp(conn, :unprocessable_entity, "")
        end
   end
 end

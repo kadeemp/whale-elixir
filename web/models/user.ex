@@ -24,6 +24,7 @@ defmodule Whale2.User do
 
         has_many :sent_questions, Whale2.User
         has_many :received_questions, Whale2.User
+        has_many :comments, Whale2.Comment, foreign_key: :commenter_id
 
         timestamps()
     end

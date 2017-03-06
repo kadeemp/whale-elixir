@@ -3,13 +3,13 @@ defmodule Whale2.Comment do
 
   schema "comments" do
     field :content, :string
-    belongs_to :commenter, Whale2.Commenter
+    belongs_to :commenter, Whale2.User
     belongs_to :answer, Whale2.Answer
 
     timestamps()
   end
 
-    @allowed_fields ~w(content answer_id commenter_id)a
+    @allowed_fields ~w(content)a
     @required_fields @allowed_fields
 
   @doc """

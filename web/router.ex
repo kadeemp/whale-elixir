@@ -16,13 +16,15 @@ defmodule Whale2.Router do
     pipe_through :api
 
     resources "/users", UserController
-    resources "/comments", CommentController
 
     scope "/" do
         pipe_through :authorized
 
         resources "/questions", QuestionController, only: [:create, :show, :index]
-        resources "/answers", AnswerController, only: [:create, :index]
+        resources "/comments", CommentController, only: [:update, :delete]
+        resources "/answers", AnswerController, only: [:create, :index] do
+          resources "/comments", CommentController, only: [:index, :create]
+        end
     end
   end
 end

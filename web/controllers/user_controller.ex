@@ -27,7 +27,7 @@ defmodule Whale2.Api.V1.UserController do
         |> put_status(:created)
         |> render("show.json", user: user)
       {:error, _changeset} ->
-        send_resp(conn, 422, "")
+        send_resp(conn, :unprocessable_entity, "")
     end
   end
 
