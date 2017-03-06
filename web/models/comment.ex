@@ -9,15 +9,25 @@ defmodule Whale2.Comment do
     timestamps()
   end
 
-    @allowed_fields ~w(content)a
+    @allowed_fields ~w(content answer_id commenter_id)a
     @required_fields @allowed_fields
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
-  def changeset(struct, params \\ %{}) do
+    @doc """
+    Builds a changeset based on the `struct` and `params`.
+    """
+    def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)
-  end
+    end
+
+    def order_by_inserted_at(query) do
+        from comment in query,
+            order_by: [desc: comment.inserted_at]
+    end
+
+    def by_answer(query, answer_id) do
+        from c in query,
+            where: c.answer_id == ^answer_id
+    end
 end

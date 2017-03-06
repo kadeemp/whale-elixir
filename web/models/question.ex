@@ -1,11 +1,12 @@
 defmodule Whale2.Question do
   use Whale2.Web, :model
+  alias Whale2.User
 
   schema "questions" do
     field :content, :string
     field :categories, {:array, :string}
-    belongs_to :sender, Whale2.User, foreign_key: :sender_id
-    belongs_to :receiver, Whale2.User, foreign_key: :receiver_id
+    belongs_to :sender, User, foreign_key: :sender_id
+    belongs_to :receiver, User, foreign_key: :receiver_id
 
     timestamps()
   end
@@ -20,5 +21,10 @@ defmodule Whale2.Question do
     struct
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)
+  end
+
+  def order_by_inserted_at(query) do
+    from question in query,
+    order_by: [desc: question.inserted_at]
   end
 end

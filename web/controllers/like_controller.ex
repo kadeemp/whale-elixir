@@ -1,10 +1,15 @@
-defmodule Whale2.LikeController do
-  use Whale2.Web, :controller
+defmodule Whale2.Api.V1.LikeController do
+    use Whale2.Web, :controller
+    alias Whale2.{Paginator, Like}
 
-  alias Whale2.Like
+  # Gets all users who like an answer
+  def index(conn, params = %{"answer_id" => answer_id}) do
+    likes = Like
+        |> Like.by_answer(answer_id)
+        |> Like.preload_users
+        |> Like.order_by_inserted_at
+        |> Paginator.new(params)
 
-  def index(conn, _params) do
-    likes = Repo.all(Like)
     render(conn, "index.json", likes: likes)
   end
 

@@ -1,11 +1,16 @@
 defmodule Whale2.Api.V1.QuestionController do
   use Whale2.Web, :controller
-  alias Whale2.Question
   alias Whale2.Api.V1.QuestionView
+  alias Whale2.{Question, Paginator}
 
-  def index(conn, _params) do
-    questions = Repo.all(Question)
-    render(conn, "index.json", questions: questions)
+  def index(conn, params) do
+    questions = Question
+        |> Question.order_by_inserted_at
+        |> Paginator.new(params)
+
+    conn
+        |> render("index.json", questions: questions)
+
   end
   def show(conn, %{"id" => id}) do
     question = Repo.get!(Question, id)
