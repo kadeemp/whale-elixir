@@ -37,6 +37,7 @@ defmodule Whale2.Web do
 
       import Whale2.Router.Helpers
       import Whale2.Gettext
+      import Ecto.Changeset, only: [put_assoc: 3]
       alias Whale2.User
       require IEx
     end

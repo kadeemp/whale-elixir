@@ -2,7 +2,6 @@ defmodule Whale2.Api.V1.QuestionController do
   use Whale2.Web, :controller
   alias Whale2.Question
   alias Whale2.Api.V1.QuestionView
-  alias Ecto.Changeset
 
   def index(conn, _params) do
     questions = Repo.all(Question)
@@ -18,8 +17,8 @@ defmodule Whale2.Api.V1.QuestionController do
 
     %Question{}
     |> Question.changeset(params)
-    |> Changeset.put_assoc(:sender, sender)
-    |> Changeset.put_assoc(:receiver, receiver)
+    |> put_assoc(:sender, sender)
+    |> put_assoc(:receiver, receiver)
     |> Repo.insert
     |> case do
          {:ok, question} ->
