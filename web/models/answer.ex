@@ -26,4 +26,10 @@ defmodule Whale2.Answer do
     |> validate_required(@required_fields)
     |> cast_attachments(params, @attachment_fields, @attachment_fields)
   end
+
+  def order_by_inserted_at(query) do
+      from answer in query,
+      order_by: [desc: answer.inserted_at]
+  end
+
 end

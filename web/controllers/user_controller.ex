@@ -1,11 +1,16 @@
 defmodule Whale2.Api.V1.UserController do
   use Whale2.Web, :controller
   alias Whale2.Api.V1.UserView
+  alias Whale2.{User, Paginator}
   require IEx
 
-  def index(conn, _params) do
-    users = Repo.all(User)
-    render(conn, "index.json", users: users)
+  def index(conn, params) do
+      users = User
+          |> User.order_by_inserted_at
+          |> Paginator.new(params)
+
+      conn
+          |> render("index.json", users: users)
   end
 
   def show(conn, %{"id" => id}) do
@@ -22,13 +27,28 @@ defmodule Whale2.Api.V1.UserController do
 
     case Repo.insert(changeset) do
       {:ok, user} ->
+
+        user = user
+            |> count_followers
+            |> count_following
+
         conn
-        |> Whale2.Auth.login(user)
-        |> put_status(:created)
-        |> render("show.json", user: user)
+            |> Whale2.Auth.login(user)
+            |> put_status(:created)
+            |> render("show.json", user: user)
       {:error, _changeset} ->
         send_resp(conn, :unprocessable_entity, "")
     end
+  end
+
+  def newbies(conn, params) do
+    users = User
+        |> User.order_by_inserted_at
+        |> User.newbies
+        |> Paginator.new(params)
+
+    conn
+      |> render("index.json", users: users)
   end
 
   defp count_followers(user) do

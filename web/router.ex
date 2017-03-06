@@ -15,6 +15,7 @@ defmodule Whale2.Router do
   scope "/api/v1", Whale2.Api.V1 do
     pipe_through :api
 
+    get "users/newbies", UserController, :newbies
     resources "/users", UserController
 
     scope "/" do
@@ -24,6 +25,7 @@ defmodule Whale2.Router do
         resources "/comments", CommentController, only: [:update, :delete]
         resources "/answers", AnswerController, only: [:create, :index] do
           resources "/comments", CommentController, only: [:index, :create]
+          resources "/likes", LikeController, only: [:index, :create]
         end
     end
   end

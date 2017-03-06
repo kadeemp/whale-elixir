@@ -3,7 +3,11 @@ defmodule Whale2.Api.V1.UserView do
     require IEx
 
     def render("index.json", %{users: users}) do
-      render_many(users, __MODULE__, "user.json")
+        %{  page: users.page,
+            per_page: users.per_page,
+            total_pages: users.total_pages,
+            data: render_many(users.entries, __MODULE__, "user.json")
+        }
     end
 
     def render("show.json", %{user: user}) do

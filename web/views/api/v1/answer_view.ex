@@ -2,7 +2,11 @@ defmodule Whale2.Api.V1.AnswerView do
     use Whale2.Web, :view
 
     def render("index.json", %{answers: answers}) do
-        %{data: render_many(answers, __MODULE__, "answer.json")}
+        %{  page: answers.page,
+            per_page: answers.per_page,
+            total_pages: answers.total_pages,
+            data: render_many(answers.entries, __MODULE__, "answer.json")
+        }
     end
 
     def render("show.json", %{answer: answer}) do
@@ -13,8 +17,7 @@ defmodule Whale2.Api.V1.AnswerView do
         %{
             id: answer.id,
             thumbnail_url: Whale2.Uploaders.AnswerThumbnailUploader.url({answer.thumbnail, answer}, :thumb),
-            video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium),
-            likes: render(Whale2.Api.V1.LikeView, "index.json", likes: answer.likes)
+            video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium)
         }
     end
 end

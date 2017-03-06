@@ -2,6 +2,7 @@ defmodule Whale2.User do
     use Whale2.Web, :model
     use Arc.Ecto.Schema
     alias Whale2.Relationship
+    require IEx
 
     schema "users" do
         field :first_name, :string
@@ -46,5 +47,15 @@ defmodule Whale2.User do
     def update_changeset(model, params \\ %{})  do
       model
       |> cast_attachments(params, @attachment_fields)
+    end
+
+    def order_by_inserted_at(query) do
+      from answer in query,
+      order_by: [desc: answer.inserted_at]
+    end
+    
+    def newbies(query) do
+      from user in query,
+        where: user.inserted_at > ago(1, "week")
     end
 end

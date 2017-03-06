@@ -2,11 +2,16 @@ defmodule Whale2.Api.V1.QuestionView do
   use Whale2.Web, :view
 
   def render("index.json", %{questions: questions}) do
-    render_many(questions, __MODULE__, "question.json")
+    %{
+      page: questions.page,
+      per_page: questions.per_page,
+      total_pages: questions.total_pages,
+      data: render_many(questions.entries, __MODULE__, "question.json")
+    }
   end
 
   def render("show.json", %{question: question}) do
-    render_one(question, Whale2.Api.V1.QuestionView, "question.json")
+    render_one(question, __MODULE__, "question.json")
   end
 
   def render("question.json", %{question: question}) do

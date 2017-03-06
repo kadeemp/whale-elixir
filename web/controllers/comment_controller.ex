@@ -1,17 +1,17 @@
 defmodule Whale2.Api.V1.CommentController do
   use Whale2.Web, :controller
-  alias Whale2.Comment
+  alias Whale2.{Comment, Paginator}
   require IEx
 
   # Fetches all comments for a given question
-  def index(conn, %{"answer_id" => answer_id}, _user) do
-    query = from c in Comment,
-      where: c.answer_id == ^answer_id,
-      order_by: [desc: c.inserted_at]
+  def index(conn, params = %{"answer_id" => answer_id}, _user) do
+    comments = Comment
+        |> Comment.by_answer(answer_id)
+        |> Comment.order_by_inserted_at
+        |> Paginator.new(params)
 
-    comments = Repo.all(query)
-
-    render(conn, "index.json", comments: comments)
+    conn
+      |> render("index.json", comments: comments)
   end
 
   def create(conn, %{"answer_id" => answer_id, "comment" => params}, user) do
