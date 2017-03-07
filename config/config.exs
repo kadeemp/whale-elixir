@@ -12,7 +12,7 @@ config :whale2,
 # Configures the endpoint
 config :whale2, Whale2.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "/iG9ggfjEQSorN3W0pMbM6AGLBpmJ35BUrvcgBY8PTlAAaiwsFL4T6/jUWe6v+jd",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: Whale2.ErrorView, accepts: ~w(json)],
   pubsub: [name: Whale2.PubSub,
            adapter: Phoenix.PubSub.PG2]

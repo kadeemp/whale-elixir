@@ -13,7 +13,8 @@ use Mix.Config
 # which you typically run after static files are built.
 config :whale2, Whale2.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "whale2-elixir.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Production database
