@@ -16,6 +16,14 @@ config :whale2, Whale2.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
 
+# Production database
+config :whale2, Whale2.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl: true
+
+
 # Do not print debug messages in production
 config :logger, level: :info
 
