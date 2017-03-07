@@ -24,6 +24,14 @@ config :whale2, Whale2.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
 
+# Configure Guardian for authentication
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  issuer: "Whale2",
+  ttl: {30, :days},
+  allowed_drift: 2000,
+  secret_key: %{"k" => System.get_env("GUARDIAN_KEY"), "kty" => "oct"},
+  serializer: Whale2.GuardianSerializer
 
 # Do not print debug messages in production
 config :logger, level: :info
