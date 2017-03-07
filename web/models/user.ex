@@ -2,6 +2,7 @@ defmodule Whale2.User do
     use Whale2.Web, :model
     use Arc.Ecto.Schema
     alias Whale2.Relationship
+    import Comeonin.Bcrypt
     require IEx
 
     schema "users" do
@@ -9,6 +10,8 @@ defmodule Whale2.User do
         field :last_name, :string
         field :username, :string
         field :email, :string
+        field :password, :string, virtual: true
+        field :password_hash, :string
         field :image_url, Whale2.Uploaders.UserImage.Type
         field :followers_count, :integer, virtual: true
         field :following_count, :integer, virtual: true
@@ -43,6 +46,19 @@ defmodule Whale2.User do
       |> unique_constraint(:email)
       |> cast_attachments(params, @attachment_fields)
     end
+
+    def registration_changeset(model, params \\ %{}) do
+      model
+      |> cast(params, [:password])
+      |> changeset(params)
+      |> validate_required([:password])
+      |> encrypt_password
+    end
+
+    defp encrypt_password(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+      put_change(changeset, :password_hash, hashpwsalt(password))
+    end
+    defp encrypt_password(changeset), do: changeset
 
     def update_changeset(model, params \\ %{})  do
       model

@@ -23,7 +23,7 @@ defmodule Whale2.Api.V1.UserController do
   end
 
   def create(conn, params) do
-    changeset = User.changeset(%User{}, params)
+    changeset = User.registration_changeset(%User{}, params)
 
     case Repo.insert(changeset) do
       {:ok, user} ->
