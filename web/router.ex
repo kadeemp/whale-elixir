@@ -17,6 +17,7 @@ defmodule Whale2.Router do
 
     get "users/newbies", UserController, :newbies
     resources "/users", UserController
+    post "/sessions", SessionController, :create
 
     scope "/" do
         pipe_through :authorized
