@@ -24,6 +24,7 @@ defmodule Whale2.Answer do
     |> cast(params, @allowed_fields)
     |> cast_assoc(:question)
     |> validate_required(@required_fields)
+    |> unique_constraint(:question_id)
     |> cast_attachments(params, @attachment_fields, @attachment_fields)
   end
 

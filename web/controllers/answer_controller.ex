@@ -15,8 +15,12 @@ defmodule Whale2.Api.V1.AnswerController do
   end
 
   def create(conn, %{"question_id" => question_id} = params) do
-    question = Repo.get!(Question, question_id)
-    |> Repo.preload([:sender, :receiver])
+  question_query = from q in Question,
+                    where: q.id == ^question_id
+
+    question = question_query
+                |> Question.preload_users
+                |> Repo.one
 
     user = conn.assigns.current_user
 
@@ -24,27 +28,18 @@ defmodule Whale2.Api.V1.AnswerController do
 
     with true <- user.id == question.receiver_id,
          {:ok, answer} <- Repo.insert(changeset) do
-      answer = %{answer | question: question}
+            answer = %{answer | question: question}
 
         conn
         |> put_status(:created)
         |> render("show.json", answer: answer)
     else
       false -> send_resp(conn, 401, "")
-      {:error, _changeset} -> send_resp(conn, :unprocessable_entity, "")
+      {:error, changeset} ->
+      conn
+         |> put_status(:created)
+         |> render(Whale2.ChangesetView, "error.json", changeset: changeset)
     end
-
-    # TODO:
-    # should we fetch from db to see whether question_id exists?
-    # check if current_user can answer the given question(if current_user.id == question.receiver.id)
-
-
-    # with {:ok, answer} <- Repo.insert(changeset) do
-    #     IEx.pry
-    #   answer = answer |> Repo.preload(:likes)
-
-    # else
-    # end
   end
 
 end

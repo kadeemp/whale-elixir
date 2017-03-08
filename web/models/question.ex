@@ -1,12 +1,13 @@
 defmodule Whale2.Question do
   use Whale2.Web, :model
-  alias Whale2.User
+  alias Whale2.{User, Answer}
 
   schema "questions" do
     field :content, :string
     field :categories, {:array, :string}
     belongs_to :sender, User, foreign_key: :sender_id
     belongs_to :receiver, User, foreign_key: :receiver_id
+    has_one :answer, Answer
 
     timestamps()
   end

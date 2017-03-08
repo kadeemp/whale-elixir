@@ -9,6 +9,6 @@ defmodule Whale2.Repo.Migrations.CreateAnswer do
 
       timestamps()
     end
-    create index(:answers, [:question_id])
+    create unique_index(:answers, :question_id)
   end
 end
