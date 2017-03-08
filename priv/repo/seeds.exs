@@ -114,6 +114,18 @@ answer2 = Repo.insert! %Answer{
     question: question2
 }
 
+#answer1 = Repo.insert! Answer.changeset(%Answer{
+#    question_id: question1.id,
+#    video: %Plug.Upload{filename: "video.m4v", path: "http://movietrailers.apple.com/movies/wb/kongskullisland/kong-skull-island-clip-is-that-a-monkey_i320.m4v"},
+#    thumbnail: %Plug.Upload{filename: "thumb.jpeg", path: "https://img.clipartfest.com/87310e7787eec7573df45930d8064df5_beautiful-sky-with-white-cloud-sky_508-339.jpeg"}
+#})
+#
+#answer2 = Repo.insert! Answer.changeset(%Answer{
+#    question: question2,
+#    video: %Plug.Upload{filename: "video.m4v", path: "http://movietrailers.apple.com/movies/wb/kongskullisland/kong-skull-island-clip-is-that-a-monkey_i320.m4v"},
+#    thumbnail: %Plug.Upload{filename: "thumb.jpeg", path: "https://img.clipartfest.com/87310e7787eec7573df45930d8064df5_beautiful-sky-with-white-cloud-sky_508-339.jpeg"}
+#}
+
 # Comments
 comment1 = Repo.insert! %Comment{
     content: "This is great content",

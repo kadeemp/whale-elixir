@@ -4,7 +4,7 @@ defmodule Whale2.Uploaders.AnswerVideoUploader do
 
     @acl :public_read
     @versions [:original, :medium]
-    @extension_whitelist ~w(.mpeg4 .mov)
+    @extension_whitelist ~w(.mpeg4 .mov .m4v)
 
     @video_size %{
         medium: "640:-1"
