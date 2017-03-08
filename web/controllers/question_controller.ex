@@ -6,6 +6,7 @@ defmodule Whale2.Api.V1.QuestionController do
   def index(conn, params) do
     questions = Question
         |> Question.order_by_inserted_at
+        |> Question.preload_users
         |> Paginator.new(params)
 
     conn
