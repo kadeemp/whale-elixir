@@ -15,16 +15,18 @@ defmodule Whale2.Router do
   scope "/api/v1", Whale2.Api.V1 do
     pipe_through :api
 
-    get "users/newbies", UserController, :newbies
+    get "/users/newbies", UserController, :newbies
     resources "/users", UserController
     post "/sessions", SessionController, :create
 
     scope "/" do
         pipe_through :authorized
 
-        resources "/questions", QuestionController, only: [:create, :show, :index]
+        resources "/questions", QuestionController, only: [:create, :show, :index] do
+          post "/answers", AnswerController, :create
+        end
         resources "/comments", CommentController, only: [:update, :delete]
-        resources "/answers", AnswerController, only: [:create, :index] do
+        resources "/answers", AnswerController, only: [:index] do
           resources "/comments", CommentController, only: [:index, :create]
           resources "/likes", LikeController, only: [:index, :create]
         end
