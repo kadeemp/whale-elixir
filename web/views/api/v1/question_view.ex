@@ -17,7 +17,9 @@ defmodule Whale2.Api.V1.QuestionView do
   def render("question.json", %{question: question}) do
     %{
       id: question.id,
-      content: question.content
+      content: question.content,
+      sender: render(Whale2.Api.V1.UserView, "show.json", user: question.sender),
+      reciever: render(Whale2.Api.V1.UserView, "show.json", user: question.receiver)
     }
   end
 end

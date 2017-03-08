@@ -16,8 +16,9 @@ defmodule Whale2.Api.V1.AnswerView do
     def render("answer.json", %{answer: answer}) do
         %{
             id: answer.id,
-            thumbnail_url: Whale2.Uploaders.AnswerThumbnailUploader.url({answer.thumbnail, answer}, :thumb),
-            video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium)
+            thumbnail_url: Whale2.Uploaders.AnswerThumbnailUploader.url({answer.thumbnail, answer}, :medium),
+            video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium),
+            question: render(Whale2.Api.V1.QuestionView, "show.json", question: answer.question)
         }
     end
 end

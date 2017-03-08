@@ -31,5 +31,10 @@ defmodule Whale2.Answer do
       from answer in query,
       order_by: [desc: answer.inserted_at]
   end
+  
+  def preload_question(query) do
+    from answer in query,
+        preload: [{:question, [{:sender, :reciever}]}]
+  end
 
 end
