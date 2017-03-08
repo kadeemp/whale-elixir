@@ -10,7 +10,7 @@ defmodule Whale2.Api.V1.UserController do
           |> Paginator.new(params)
 
       conn
-          |> render("index.json", users: users)
+          |> render("detail_index.json", users: users)
   end
 
   def show(conn, %{"id" => id}) do

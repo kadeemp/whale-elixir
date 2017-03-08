@@ -25,4 +25,23 @@ defmodule Whale2.Api.V1.UserView do
           following_count: user.following_count
       }
     end
+    
+    def render("detail_index.json", %{users: users}) do
+        %{
+          page: users.page,
+          per_page: users.per_page,
+          total_pages: users.total_pages,
+          data: render_many(users.entries, __MODULE__, "detail.json")
+        }
+    end
+
+    def render("detail.json", %{user: user}) do
+        %{  id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
+            image_url: Whale2.Uploaders.UserImage.url({user.image_url, user}, :thumb),
+            email: user.email
+        }
+    end
 end
