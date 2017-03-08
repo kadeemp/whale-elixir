@@ -32,9 +32,12 @@ defmodule Whale2.Answer do
       order_by: [desc: answer.inserted_at]
   end
   
-  def preload_question(query) do
-    from answer in query,
-        preload: [{:question, [{:sender, :reciever}]}]
+  def preload_question_and_users(query) do
+        query
+        |> join(:left, [answer], question in assoc(answer, :question))
+        |> join(:left, [answer, question], sender in assoc(question, :sender))
+        |> join(:left, [answer, question], receiver in assoc(question, :receiver))
+        |> preload([answer, question, sender, receiver], [question: {question, sender: sender, receiver: receiver}])
   end
 
 end
