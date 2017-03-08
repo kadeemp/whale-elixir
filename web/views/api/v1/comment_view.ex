@@ -10,7 +10,7 @@ defmodule Whale2.Api.V1.CommentView do
     end
 
     def render("show.json", %{comment: comment}) do
-      %{data: render_one(comment, __MODULE__, "comment.json")}
+      render_one(comment, __MODULE__, "comment.json")
     end
 
     def render("comment.json", %{comment: comment}) do

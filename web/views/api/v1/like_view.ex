@@ -10,7 +10,7 @@ defmodule Whale2.Api.V1.LikeView do
     end
 
     def render("show.json", %{like: like}) do
-      %{data: render_one(like, __MODULE__, "like.json")}
+      render_one(like, __MODULE__, "like.json")
     end
 
     def render("like.json", %{like: like}) do

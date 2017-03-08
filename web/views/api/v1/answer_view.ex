@@ -10,7 +10,7 @@ defmodule Whale2.Api.V1.AnswerView do
     end
 
     def render("show.json", %{answer: answer}) do
-        %{data: render_one(answer, __MODULE__, "answer.json")}
+        render_one(answer, __MODULE__, "answer.json")
     end
 
     def render("answer.json", %{answer: answer}) do
