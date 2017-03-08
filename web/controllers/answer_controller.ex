@@ -23,7 +23,7 @@ defmodule Whale2.Api.V1.AnswerController do
     changeset = Answer.changeset(%Answer{}, params)
 
     with {:ok, answer} <- Repo.insert(changeset) do
-      answer = answer |> Repo.preload(:likes)
+      answer = answer |> Answer.preload_question_and_users
 
       conn
       |> put_status(:created)
