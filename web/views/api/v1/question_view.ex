@@ -19,7 +19,7 @@ defmodule Whale2.Api.V1.QuestionView do
       id: question.id,
       content: question.content,
       sender: render(Whale2.Api.V1.UserView, "detail.json", user: question.sender),
-      reciever: render(Whale2.Api.V1.UserView, "detail.json", user: question.receiver)
+      receiver: render(Whale2.Api.V1.UserView, "detail.json", user: question.receiver)
     }
   end
 end
