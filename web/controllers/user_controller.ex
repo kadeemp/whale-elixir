@@ -41,6 +41,21 @@ defmodule Whale2.Api.V1.UserController do
     end
   end
 
+    def update(conn, params) do
+        user = Repo.get!(User, conn.assigns.current_user.id)
+
+        changeset = User.update_changeset(user, params)
+
+        case Repo.update(changeset) do
+          {:ok, user} ->
+            render(conn, "show.json", user: user)
+          {:error, changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> render(Whale2.ChangesetView, "error.json", changeset: changeset)
+        end
+    end
+
   def newbies(conn, params) do
     users = User
         |> User.order_by_inserted_at
