@@ -16,9 +16,9 @@ defmodule Whale2.Api.V1.CommentView do
     def render("comment.json", %{comment: comment}) do
         %{
             id: comment.id,
-            commenter_id: comment.commenter_id,
             content: comment.content,
-            answer_id: comment.answer_id
+            answer_id: comment.answer_id,
+            commenter: render(Whale2.Api.V1.UserView, "show.json", user: comment.commenter)
         }
     end
 end

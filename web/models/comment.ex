@@ -30,4 +30,9 @@ defmodule Whale2.Comment do
         from c in query,
             where: c.answer_id == ^answer_id
     end
+
+    def preload_user(query) do
+       from c in query,
+            preload: :commenter
+    end
 end

@@ -7,6 +7,7 @@ defmodule Whale2.Api.V1.CommentController do
   def index(conn, params = %{"answer_id" => answer_id}, _user) do
     comments = Comment
         |> Comment.by_answer(answer_id)
+        |> Comment.preload_user
         |> Comment.order_by_inserted_at
         |> Paginator.new(params)
 
