@@ -1,6 +1,6 @@
 defmodule Whale2.Api.V1.SessionController do
   use Whale2.Web, :controller
-
+    require IEx
   alias Whale2.{Api.V1.UserView, Auth, User}
 
   def create(conn, %{"username" => username, "password" => password}) do
@@ -21,7 +21,8 @@ defmodule Whale2.Api.V1.SessionController do
   
   def show(conn, _params) do
     user = conn.assigns.current_user
-    user
+    IEx.pry
+    user = user
         |> User.count_followers
         |> User.count_following
 
