@@ -1,7 +1,7 @@
 defmodule Whale2.Api.V1.SessionController do
   use Whale2.Web, :controller
-  alias Whale2.Auth
-  alias Whale2.Api.V1.UserView
+
+  alias Whale2.{Api.V1.UserView, Auth, User}
 
   def create(conn, %{"username" => username, "password" => password}) do
     case Auth.authenticate_user(username, password) do
@@ -21,6 +21,9 @@ defmodule Whale2.Api.V1.SessionController do
   
   def show(conn, _params) do
     user = conn.assigns.current_user
+    user
+        |> User.count_followers
+        |> User.count_following
 
     conn
         |> render(UserView, "show.json", user: user)

@@ -16,8 +16,8 @@ defmodule Whale2.Api.V1.UserController do
   def show(conn, %{"id" => id}) do
     user =
       Repo.get!(User, id)
-      |> count_followers
-      |> count_following
+      |> User.count_followers
+      |> User.count_following
 
     render(conn, "show.json", user: user)
   end
@@ -29,8 +29,8 @@ defmodule Whale2.Api.V1.UserController do
       {:ok, user} ->
 
         user = user
-            |> count_followers
-            |> count_following
+            |> User.count_followers
+            |> User.count_following
 
         conn
             |> Whale2.Auth.login(user)
@@ -65,23 +65,4 @@ defmodule Whale2.Api.V1.UserController do
     conn
       |> render("index.json", users: users)
   end
-
-  defp count_followers(user) do
-    followers_count =
-      followers_query(user)
-      |> Repo.aggregate(:count, :id)
-
-    %User{user | followers_count: followers_count}
-  end
-
-  defp count_following(user) do
-    following_count =
-      following_query(user)
-      |> Repo.aggregate(:count, :id)
-
-    %User{user | following_count: following_count}
-  end
-
-  defp followers_query(user), do: assoc(user, :followers)
-  defp following_query(user), do: assoc(user, :following)
 end

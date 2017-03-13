@@ -1,9 +1,8 @@
 defmodule Whale2.User do
     use Whale2.Web, :model
     use Arc.Ecto.Schema
-    alias Whale2.Relationship
+    alias Whale2.{Relationship, Repo}
     import Comeonin.Bcrypt
-    require IEx
 
     schema "users" do
         field :first_name, :string
@@ -74,4 +73,23 @@ defmodule Whale2.User do
       from user in query,
         where: user.inserted_at > ago(1, "week")
     end
+
+    def count_followers(user) do
+        followers_count =
+          followers_query(user)
+          |> Repo.aggregate(:count, :id)
+
+        %User{user | followers_count: followers_count}
+      end
+
+      def count_following(user) do
+        following_count =
+          following_query(user)
+          |> Repo.aggregate(:count, :id)
+
+        %User{user | following_count: following_count}
+      end
+
+    defp followers_query(user), do: assoc(user, :followers)
+    defp following_query(user), do: assoc(user, :following)
 end
