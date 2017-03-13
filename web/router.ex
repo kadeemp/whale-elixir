@@ -22,10 +22,14 @@ defmodule Whale2.Router do
     scope "/" do
         pipe_through :authorized
 
+        get "/sessions", SessionController, :show
+
         resources "/questions", QuestionController, only: [:create, :show, :index] do
           post "/answers", AnswerController, :create
         end
+
         resources "/comments", CommentController, only: [:update, :delete]
+
         resources "/answers", AnswerController, only: [:index] do
           resources "/comments", CommentController, only: [:index, :create]
           resources "/likes", LikeController, only: [:index, :create]

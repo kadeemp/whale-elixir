@@ -18,4 +18,11 @@ defmodule Whale2.Api.V1.SessionController do
         send_resp(conn, :unauthorized, "")
     end
   end
+  
+  def show(conn, _params) do
+    user = conn.assigns.current_user
+
+    conn
+        |> render(UserView, "show.json", user: user)
+  end
 end
