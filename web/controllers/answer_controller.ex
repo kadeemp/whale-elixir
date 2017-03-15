@@ -1,17 +1,19 @@
 defmodule Whale2.Api.V1.AnswerController do
   use Whale2.Web, :controller
   alias Whale2.Api.V1.AnswerView
-  alias Whale2.{Answer, Like, Paginator, Question}
+  alias Whale2.{Answer, Paginator, Question}
   require IEx
 
   def index(conn, params) do
-    answers = Answer
-        |> Answer.order_by_inserted_at
-        |> Answer.preload_question_and_users
-        |> Paginator.new(params)
+    answers =
+      Answer
+      |> Answer.order_by_inserted_at
+      |> Answer.preload_question_and_users
+      |> Answer.likes_and_comments_count
+      |> Paginator.new(params)
 
     conn
-        |> render("index.json", answers: answers)
+    |> render("index.json", answers: answers)
   end
 
   def create(conn, %{"question_id" => question_id} = params) do

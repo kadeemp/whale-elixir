@@ -13,12 +13,14 @@ defmodule Whale2.Api.V1.AnswerView do
         render_one(answer, __MODULE__, "answer.json")
     end
 
-    def render("answer.json", %{answer: answer}) do
+    def render("answer.json", %{answer: {answer, likes_count, comment_count}}) do
         %{
             id: answer.id,
             thumbnail_url: Whale2.Uploaders.AnswerThumbnailUploader.url({answer.thumbnail, answer}, :medium),
             video_url: Whale2.Uploaders.AnswerVideoUploader.url({answer.video, answer}, :medium),
-            question: render(Whale2.Api.V1.QuestionView, "show.json", question: answer.question)
+            question: render(Whale2.Api.V1.QuestionView, "show.json", question: answer.question),
+            likes_count: likes_count,
+            comment_count: comment_count
         }
     end
 end
