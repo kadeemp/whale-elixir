@@ -35,4 +35,10 @@ defmodule Whale2.Question do
         |> join(:left, [question], receiver in assoc(question, :receiver))
         |> preload([question, sender, receiver], [sender: sender, receiver: receiver])
   end
+
+  def unanswered_questions(query) do
+    from q in query,
+        left_join: a in assoc(q, :answer),
+        where: is_nil(a.id)
+  end
 end

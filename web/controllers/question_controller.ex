@@ -2,11 +2,12 @@ defmodule Whale2.Api.V1.QuestionController do
   use Whale2.Web, :controller
   alias Whale2.Api.V1.QuestionView
   alias Whale2.{Question, Paginator}
-
+    require IEx
   def index(conn, params) do
     questions = Question
         |> Question.order_by_inserted_at
         |> Question.preload_users
+        |> Question.unanswered_questions
         |> Paginator.new(params)
 
     conn
