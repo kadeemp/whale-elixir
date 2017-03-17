@@ -41,4 +41,5 @@ defmodule Whale2.Question do
         left_join: a in assoc(q, :answer),
         where: is_nil(a.id)
   end
+
 end

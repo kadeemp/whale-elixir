@@ -1,6 +1,6 @@
 defmodule Whale2.Api.V1.CommentController do
   use Whale2.Web, :controller
-  alias Whale2.{Comment, Paginator}
+  alias Whale2.{Comment, Paginator, Answer}
   require IEx
 
   # Fetches all comments for a given question
@@ -15,11 +15,13 @@ defmodule Whale2.Api.V1.CommentController do
       |> render("index.json", comments: comments)
   end
 
-  def create(conn, %{"answer_id" => answer_id, "comment" => params}, user) do
-    answer = Repo.get!(Whale2.Answer, answer_id)
+  def create(conn, %{"answer_id" => answer_id, "comment" => comment}, user) do
+    answer = Repo.get!(Answer, answer_id)
+
+    comment_params = %{answer_id: answer_id, content: comment, commenter_id: user.id}
 
     changeset =
-      Comment.changeset(%Comment{}, params)
+      Comment.changeset(%Comment{}, comment_params)
       |> put_assoc(:commenter, user)
       |> put_assoc(:answer, answer)
 
