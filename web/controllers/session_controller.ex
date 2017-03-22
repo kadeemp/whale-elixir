@@ -2,8 +2,8 @@ defmodule Whale2.Api.V1.SessionController do
   use Whale2.Web, :controller
   alias Whale2.{Api.V1.UserView, Auth, User}
 
-  def create(conn, %{"username" => username, "password" => password}) do
-    case Auth.authenticate_user(username, password) do
+  def create(conn, %{"email" => email, "password" => password}) do
+    case Auth.authenticate_user(email, password) do
       {:ok, user} ->
         # user followers/following count will be nil
 

@@ -57,6 +57,7 @@ defmodule Whale2.User do
     defp encrypt_password(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
       put_change(changeset, :password_hash, hashpwsalt(password))
     end
+
     defp encrypt_password(changeset), do: changeset
 
     def update_changeset(model, params \\ %{})  do

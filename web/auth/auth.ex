@@ -10,8 +10,8 @@ defmodule Whale2.Auth do
     assign(conn, :current_user, current_user)
   end
 
-  def authenticate_user(username, password) do
-    user = Whale2.Repo.get_by(Whale2.User, username: username)
+  def authenticate_user(email, password) do
+    user = Whale2.Repo.get_by(Whale2.User, email: email)
 
     cond do
       user && checkpw(password, user.password_hash) ->
