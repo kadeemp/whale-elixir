@@ -43,6 +43,7 @@ defmodule Whale2.User do
       |> validate_required(@required_fields)
       |> validate_format(:email, @email_regex)
       |> unique_constraint(:email)
+      |> unique_constraint(:username)
       |> cast_attachments(params, @attachment_fields)
     end
 
