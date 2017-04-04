@@ -1,7 +1,7 @@
 defmodule Whale2.Api.V1.AnswerController do
   use Whale2.Web, :controller
   alias Whale2.Api.V1.AnswerView
-  alias Whale2.{Answer, Paginator, Question}
+  alias Whale2.{Answer, Paginator, Question, EmptyView}
   require IEx
 
   def index(conn, params) do
@@ -13,11 +13,11 @@ defmodule Whale2.Api.V1.AnswerController do
       |> Paginator.new(params)
 
     conn
-    |> render("index.json", answers: answers)
+        |> render("index.json", answers: answers)
   end
 
   def create(conn, %{"question_id" => question_id} = params) do
-  question_query = from q in Question,
+    question_query = from q in Question,
                     where: q.id == ^question_id
 
     question = question_query
@@ -26,22 +26,22 @@ defmodule Whale2.Api.V1.AnswerController do
 
     user = conn.assigns.current_user
 
-    changeset = Answer.changeset(%Answer{}, params)
+    with true <- user.id == question.receiver_id do
 
-    with true <- user.id == question.receiver_id,
-         {:ok, answer} <- Repo.insert(changeset) do
-            answer = %{answer | question: question}
+        # Try uploading the answer payload, we don't care about failure now 
+        upload_task = Task.async(fn ->
+            changeset = Answer.changeset(%Answer{}, params)
+            Repo.insert(changeset)
+        end)
 
         conn
-        |> put_status(:created)
-        |> render("show.json", answer: answer)
-    else
-      false -> send_resp(conn, 401, "")
-      {:error, changeset} ->
-      conn
-         |> put_status(:created)
-         |> render(Whale2.ChangesetView, "error.json", changeset: changeset)
+            |> put_status(:created)
+            |> render(EmptyView, "empty.json")
+
+      else false ->
+        send_resp(conn, :unprocessable_entity, "")
     end
+
   end
 
 end

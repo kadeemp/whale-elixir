@@ -24,7 +24,8 @@ config :logger, :console,
 
 config :arc,
     bucket: "whale-bucket",
-    virtual_host: true
+    virtual_host: true,
+    version_timeout: 195_000
 
 config :ex_aws,
     access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
